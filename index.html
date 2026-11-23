@@ -66,6 +66,69 @@
             margin-top: 40px;
         }
 
+        .winner-effect {
+            animation: winnerPop 1s ease-out;
+            text-shadow:
+                0 0 10px white,
+                0 0 25px currentColor,
+                0 0 50px currentColor,
+                0 0 80px white;
+        }
+
+        @keyframes winnerPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.5) rotate(-5deg);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9) rotate(5deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* 화면 섬광 효과 */
+        .flash {
+            position: fixed;
+            inset: 0;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10000;
+            animation: flashEffect 0.7s ease-out;
+        }
+
+        @keyframes flashEffect {
+            0% {
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            30% {
+                opacity: 0.1;
+            }
+
+            45% {
+                opacity: 0.9;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
         @media (max-width: 600px) {
             h1 {
                 font-size: 25px;
@@ -110,7 +173,7 @@
             "물만난 광어",
             "구이세인",
             "강진맹진독 독덩어리",
-            "할머"
+            "할머",
         ];
 
         const colors = [
@@ -123,8 +186,8 @@
             "#87CEEB",
             "#FF0000",
             "#39FF14",
-        "#FF1493"
-];
+            "#FF1493"
+        ];
 
         const backgrounds = [
             "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvZzsfJKeOExTQ9eXbAGemIzpIyhDtdN_xlISfNkCtSA&s=10')",
@@ -149,6 +212,19 @@
             document.body.style.backgroundAttachment = "fixed";
         }
 
+        // 섬광 효과
+        function createFlash() {
+            const flash = document.createElement("div");
+
+            flash.className = "flash";
+
+            document.body.appendChild(flash);
+
+            setTimeout(() => {
+                flash.remove();
+            }, 750);
+        }
+
         function clickButton() {
             if (spinning) return;
 
@@ -162,6 +238,8 @@
             document.body.style.backgroundColor = "rgb(53, 56, 56)";
             button.style.backgroundColor = "gray";
 
+            text.classList.remove("winner-effect");
+
             sound.volume = 0.5;
             sound.currentTime = 0;
             sound.play().catch(() => {});
@@ -170,7 +248,8 @@
             let elapsed = 0;
 
             function spin() {
-                const randomIndex = Math.floor(Math.random() * legends.length);
+                const randomIndex =
+                    Math.floor(Math.random() * legends.length);
 
                 text.textContent = legends[randomIndex];
                 text.style.color = colors[randomIndex];
@@ -181,18 +260,26 @@
                     speed += 15;
                     setTimeout(spin, speed);
                 } else {
-                    const winner = Math.floor(Math.random() * legends.length);
+                    const winner =
+                        Math.floor(Math.random() * legends.length);
 
                     text.textContent = legends[winner];
                     text.style.color = colors[winner];
 
-                    document.body.style.backgroundImage = backgrounds[winner];
+                    document.body.style.backgroundImage =
+                        backgrounds[winner];
+
                     document.body.style.backgroundSize = "cover";
                     document.body.style.backgroundPosition = "center center";
                     document.body.style.backgroundRepeat = "no-repeat";
                     document.body.style.backgroundAttachment = "fixed";
 
                     button.style.backgroundColor = "transparent";
+
+                    void text.offsetWidth;
+                    text.classList.add("winner-effect");
+
+                    createFlash();
 
                     sound.pause();
                     sound.currentTime = 0;
