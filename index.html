@@ -96,28 +96,6 @@
             }
         }
 
-        @keyframes flashEffect {
-            0% {
-                opacity: 0;
-            }
-
-            15% {
-                opacity: 1;
-            }
-
-            30% {
-                opacity: 0.1;
-            }
-
-            45% {
-                opacity: 0.9;
-            }
-
-            100% {
-                opacity: 0;
-            }
-        }
-
         @media (max-width: 600px) {
             h1 {
                 font-size: 25px;
@@ -191,7 +169,7 @@
             "url('IMG_20261119_132306.jpg')",
             "url('네온 독성 슬라임 해골 Puddle.png')",
             "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMruDJOlqqq8FDYABoFCgQwNyUxcMbTyL5dYOkUPbcvg&s=10')",
-            "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRucjuuKSo5al27qGKQICAALv6AMW_ekGwFBQNV-iNVDQ&s=10')"
+            "url('https://image.cine21.com/cine21/poster/2024/0608/00_07_16__66632224e0b1a.jpg')"
         ];
 
         let spinning = false;
@@ -202,19 +180,6 @@
             document.body.style.backgroundPosition = "center center";
             document.body.style.backgroundRepeat = "no-repeat";
             document.body.style.backgroundAttachment = "fixed";
-        }
-
-        // 섬광 효과
-        function createFlash() {
-            const flash = document.createElement("div");
-
-            flash.className = "flash";
-
-            document.body.appendChild(flash);
-
-            setTimeout(() => {
-                flash.remove();
-            }, 750);
         }
 
         function clickButton() {
@@ -270,8 +235,6 @@
 
                     void text.offsetWidth;
                     text.classList.add("winner-effect");
-
-                    createFlash();
 
                     sound.pause();
                     sound.currentTime = 0;
